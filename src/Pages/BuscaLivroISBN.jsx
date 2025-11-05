@@ -1,5 +1,3 @@
-// src/pages/BuscaLivroISBN.jsx
-
 import React, { useState } from 'react';
 import { fetchBookByISBN } from '../Api/isbnApi';
 import { useLibrary } from '../hooks/useLibrary';
