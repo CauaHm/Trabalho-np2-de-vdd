@@ -1,47 +1,37 @@
 import React, { useState } from 'react';
-import { fetchBookByISBN } from '../Api/isbnApi';
+import { searchBooksByTerm } from '../Api/isbnApi'; 
 import { useLibrary } from '../hooks/useLibrary';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
-function BookDetailsCard({ book, handleAddBook }) {
+function BookSearchResultCard({ book, onSelect }) {
     return (
-        <div className="mt-8 p-6 bg-white border-l-4 border-teal-500 rounded-lg shadow-xl">
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">{book.title}</h3>
-            <p className="text-lg text-indigo-600 mb-4">
-                {book.authors?.join(' / ') || 'Autor Desconhecido'}
-            </p>
-            
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm text-gray-600">
-                <p><strong>ISBN:</strong> {book.isbn}</p>
-                <p><strong>Editora:</strong> {book.publisher || 'N/A'}</p>
-                <p><strong>Ano:</strong> {book.year || 'N/A'}</p>
-                <p><strong>Páginas:</strong> {book.page_count || 'N/A'}</p>
-                <p className="col-span-2 sm:col-span-3">
-                    <strong>Formato:</strong> {book.format || 'N/A'}
+        <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 border-l-4 border-teal-400 flex flex-col justify-between">
+            <div>
+                <h3 className="text-lg font-bold text-gray-800 mb-1 line-clamp-2">{book.title}</h3>
+                <p className="text-sm text-indigo-600 mb-3 line-clamp-1">
+                    {book.authors?.join(' / ') || 'Autor Desconhecido'}
                 </p>
+                <div className="text-xs text-gray-500 space-y-1">
+                    <p>ISBN-13: {book.isbn || 'N/A'}</p>
+                    <p>Ano: {book.year || 'N/A'}</p>
+                    <p>Editora: {book.publisher || 'N/A'}</p>
+                </div>
             </div>
-
-            <div className="mt-4">
-                <h4 className="font-semibold text-gray-700">Sinopse</h4>
-                <p className="text-gray-500 italic mt-1 text-sm">
-                    {book.synopsis || 'Sinopse não disponível.'}
-                </p>
-            </div>
-
             <button
-                onClick={handleAddBook} 
-                className="mt-6 w-full py-2 px-4 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition duration-200"
+                onClick={() => onSelect(book)}
+                className="mt-4 w-full py-2 px-4 bg-teal-600 text-white font-semibold rounded-md shadow-md hover:bg-teal-700 transition duration-200 text-sm"
             >
-                Adicionar à Biblioteca (CREATE)
+                Adicionar à Biblioteca
             </button>
         </div>
     );
 }
 
+
 export default function BuscaLivroISBN() {
-  const [isbn, setIsbn] = useState(''); 
-  const [bookData, setBookData] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(''); 
+  const [searchResults, setSearchResults] = useState(null); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { addBook } = useLibrary();
@@ -56,32 +46,37 @@ export default function BuscaLivroISBN() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setBookData(null); 
+    setSearchResults(null); 
 
-    fetchBookByISBN(isbn)
-        .then(data => setBookData(data))
+    searchBooksByTerm(searchTerm)
+        .then(results => {
+            if (results.length === 0) {
+                setError('Nenhum livro encontrado para o termo: ' + searchTerm);
+            }
+            setSearchResults(results);
+        })
         .catch(err => setError(err.message))
         .finally(() => setLoading(false));
   }
 
-  function handleAddBook() {
-      addBook(bookData);
-      alert(`"${bookData.title}" adicionado com sucesso à sua biblioteca!`);
+  function handleAddBook(book) {
+      addBook(book);
+      alert(`"${book.title}" adicionado com sucesso à sua biblioteca!`);
       navigate('/dashboard'); 
   }
 
   return (
     <div className="container mx-auto p-4 md:p-8">
       <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">
-        🔎 Busca de Livros por ISBN (BrasilAPI)
+        🔎 Busca de Livros (Google Books API)
       </h1>
 
       <form onSubmit={handleSearch} className="max-w-xl mx-auto flex flex-col sm:flex-row gap-3">
         <input
           type="text"
-          value={isbn}
-          onChange={(e) => setIsbn(e.target.value)}
-          placeholder="Digite o ISBN (ex: 9788545702870)"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Digite título, autor ou termo..."
           className="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition duration-150"
           required
         />
@@ -96,20 +91,28 @@ export default function BuscaLivroISBN() {
         </button>
       </form>
 
-      <div className="max-w-xl mx-auto">
+      <div className="max-w-6xl mx-auto mt-8">
         {error && (
-          <div className="mt-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg">
+          <div className="p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg max-w-xl mx-auto">
             {error}
           </div>
         )}
 
-        {bookData && !error && (
-          <BookDetailsCard book={bookData} handleAddBook={handleAddBook} />
+        {searchResults && searchResults.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {searchResults.map(book => (
+                    <BookSearchResultCard 
+                        key={book.apiId} 
+                        book={book} 
+                        onSelect={handleAddBook} 
+                    />
+                ))}
+            </div>
         )}
         
-        {!bookData && !error && !loading && (
+        {!searchResults && !error && !loading && (
           <p className="text-center mt-10 text-gray-500">
-              Use o campo acima para buscar os detalhes de um livro!
+              Use o campo acima para buscar livros por título ou autor!
           </p>
         )}
       </div>
