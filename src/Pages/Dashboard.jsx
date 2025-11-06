@@ -65,7 +65,7 @@ function BookCard({ book, onDelete, onUpdateStatus }) {
 
 export default function Dashboard() {
     const { books, deleteBook, updateBookStatus } = useLibrary();
-    const { currentUser, isLoggedIn } = useAuth();
+    const { isLoggedIn } = useAuth();
 
     if (!isLoggedIn) {
         return <Navigate to="/login" replace />;
