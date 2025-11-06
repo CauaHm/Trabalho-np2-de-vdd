@@ -6,21 +6,39 @@ import { useAuth } from '../hooks/useAuth';
 
 function BookSearchResultCard({ book, onSelect }) {
     return (
-        <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 border-l-4 border-teal-400 flex flex-col justify-between">
-            <div>
-                <h3 className="text-lg font-bold text-gray-800 mb-1 line-clamp-2">{book.title}</h3>
-                <p className="text-sm text-indigo-600 mb-3 line-clamp-1">
-                    {book.authors?.join(' / ') || 'Autor Desconhecido'}
-                </p>
-                <div className="text-xs text-gray-500 space-y-1">
-                    <p>ISBN-13: {book.isbn || 'N/A'}</p>
-                    <p>Ano: {book.year || 'N/A'}</p>
-                    <p>Editora: {book.publisher || 'N/A'}</p>
+        <div className="p-4 bg-white rounded-lg shadow-xl transition duration-300 border-t-4 border-teal-600 flex flex-col justify-between h-full">
+            <div className="flex space-x-4">
+                <div className="flex-shrink-0">
+                    {book.coverImageUrl ? (
+                        <img 
+                            src={book.coverImageUrl} 
+                            alt={`Capa do livro ${book.title}`} 
+                            className="w-16 h-24 object-cover rounded shadow-md"
+                        />
+                    ) : (
+                        <div className="w-16 h-24 bg-gray-200 flex items-center justify-center text-center text-xs text-gray-500 rounded border border-gray-300 p-1">
+                            Sem Capa
+                        </div>
+                    )}
+                </div>
+                
+                <div className="flex-grow min-w-0">
+                    <h3 className="text-xl font-extrabold text-gray-800 mb-1 line-clamp-2">{book.title}</h3>
+                    <p className="text-sm text-indigo-600 mb-3 font-medium line-clamp-1">
+                        {book.authors?.join(' / ') || 'Autor Desconhecido'}
+                    </p>
                 </div>
             </div>
+            
+            <div className="mt-3 pt-3 border-t border-gray-200 text-sm text-gray-600 space-y-1">
+                <p>ISBN-13: <span className="font-medium text-gray-800">{book.isbn || 'N/A'}</span></p>
+                <p>Ano: <span className="font-medium text-gray-800">{book.year || 'N/A'}</span></p>
+                <p>Editora: <span className="font-medium text-gray-800">{book.publisher || 'N/A'}</span></p>
+            </div>
+            
             <button
                 onClick={() => onSelect(book)}
-                className="mt-4 w-full py-2 px-4 bg-teal-600 text-white font-semibold rounded-md shadow-md hover:bg-teal-700 transition duration-200 text-sm"
+                className="mt-4 w-full py-2 px-4 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition duration-200"
             >
                 Adicionar à Biblioteca
             </button>
@@ -42,21 +60,30 @@ export default function BuscaLivroISBN() {
       return <Navigate to="/login" replace />;
   }
 
-  function handleSearch(e) {
-    e.preventDefault();
+  function executeSearch(term) {
+    if (!term) {
+        setError('Por favor, digite um termo de busca.');
+        return;
+    } 
+
     setLoading(true);
     setError(null);
     setSearchResults(null); 
 
-    searchBooksByTerm(searchTerm)
+    searchBooksByTerm(term)
         .then(results => {
             if (results.length === 0) {
-                setError('Nenhum livro encontrado para o termo: ' + searchTerm);
+                setError('Nenhum livro encontrado para o termo: ' + term);
             }
             setSearchResults(results);
         })
         .catch(err => setError(err.message))
         .finally(() => setLoading(false));
+  }
+
+  function handleSearch(e) {
+    e.preventDefault();
+    executeSearch(searchTerm.trim());
   }
 
   function handleAddBook(book) {
@@ -71,25 +98,28 @@ export default function BuscaLivroISBN() {
         🔎 Busca de Livros (Google Books API)
       </h1>
 
-      <form onSubmit={handleSearch} className="max-w-xl mx-auto flex flex-col sm:flex-row gap-3">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Digite título, autor ou termo..."
-          className="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition duration-150"
-          required
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className={`shrink-0 py-3 px-6 rounded-lg font-bold text-white shadow-md transition duration-300 
-            ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}
-          `}
-        >
-          {loading ? 'Buscando...' : 'Buscar'}
-        </button>
-      </form>
+      <div className="max-w-xl mx-auto">
+          <form onSubmit={handleSearch} className="flex flex-col gap-3">
+              <div className="flex sm:flex-row gap-3">
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Digite título, autor ou termo..."
+                    className="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition duration-150"
+                  />
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className={`shrink-0 py-3 px-6 rounded-lg font-bold text-white shadow-md transition duration-300 
+                      ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}
+                    `}
+                  >
+                    {loading ? 'Buscando...' : 'Buscar'}
+                  </button>
+              </div>
+          </form>
+      </div>
 
       <div className="max-w-6xl mx-auto mt-8">
         {error && (
@@ -112,7 +142,7 @@ export default function BuscaLivroISBN() {
         
         {!searchResults && !error && !loading && (
           <p className="text-center mt-10 text-gray-500">
-              Use o campo acima para buscar livros por título ou autor!
+              Digite um termo de busca para encontrar livros.
           </p>
         )}
       </div>

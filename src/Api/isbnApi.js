@@ -1,5 +1,4 @@
-const GOOGLE_BOOKS_URL = 'https://www.googleapis.com/books/v1/volumes?q=';
-const BRASILAPI_URL = 'https://brasilapi.com.br/api/isbn/v1/';
+const GOOGLE_BOOKS_BASE_URL = 'https://www.googleapis.com/books/v1/volumes';
 
 function mapGoogleBookData(googleBook) {
   const info = googleBook.volumeInfo;
@@ -19,6 +18,8 @@ function mapGoogleBookData(googleBook) {
     year: info.publishedDate ? info.publishedDate.substring(0, 4) : 'N/A',
     isbn: isbn, 
     
+    coverImageUrl: info.imageLinks?.thumbnail || null, 
+    
     page_count: info.pageCount || 'N/A',
     synopsis: info.description || 'Sinopse não disponível.',
     format: info.printType || 'N/A', 
@@ -30,7 +31,7 @@ function mapGoogleBookData(googleBook) {
 export async function searchBooksByTerm(query) {
   try {
     const cleanQuery = encodeURIComponent(query.trim());
-    const response = await fetch(`${GOOGLE_BOOKS_URL}${cleanQuery}`);
+    const response = await fetch(`${GOOGLE_BOOKS_BASE_URL}?q=${cleanQuery}&maxResults=40&startIndex=0`);
     
     if (!response.ok) {
       throw new Error("Não foi possível buscar livros. Verifique o termo de pesquisa.");
@@ -42,28 +43,10 @@ export async function searchBooksByTerm(query) {
         return [];
     }
 
-    // Mapeia e retorna os 10 primeiros resultados
-    return data.items.slice(0, 10).map(mapGoogleBookData);
+    return data.items.map(mapGoogleBookData);
     
   } catch (error) {
     console.error("Erro na busca por termo (Google Books):", error.message);
-    throw error;
-  }
-}
-
-export async function fetchBookByISBN(isbn) {
-  try {
-    const cleanIsbn = isbn.replace(/-/g, '').trim();
-    const response = await fetch(`${BRASILAPI_URL}${cleanIsbn}`);
-    
-    if (!response.ok) {
-      throw new Error("Não foi possível buscar o livro. Verifique o ISBN.");
-    }
-    
-    return await response.json();
-    
-  } catch (error) {
-    console.error("Erro na busca por ISBN (BrasilAPI):", error.message);
     throw error;
   }
 }
