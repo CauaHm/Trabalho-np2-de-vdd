@@ -6,22 +6,41 @@ function BookCard({ book, onDelete, onUpdateStatus }) {
     return (
         <div className="bg-white p-4 rounded-lg shadow-xl border-t-4 border-indigo-500 flex flex-col justify-between h-full">
             
-            {/* NOVO BLOCO DO STATUS: Movido para o topo, antes do título */}
-            <div className="flex justify-between items-center mb-2">
-                <p className="text-sm text-gray-500">ISBN: {book.isbn}</p>
+            <div className="flex justify-between items-center mb-3">
+                <p className="text-sm text-gray-500">ISBN: {book.isbn || 'N/A'}</p>
                 <p className={`font-bold text-sm px-3 py-1 rounded-full ${book.customStatus === 'Lido' ? 'bg-green-100 text-green-700' : book.customStatus === 'Em Leitura' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'}`}>
                     {book.customStatus}
                 </p>
             </div>
-            {/* FIM NOVO BLOCO DO STATUS */}
 
-            {/* Título e Autor (Ajustado o espaçamento) */}
-            <div className="flex-grow"> 
-                <h3 className="text-xl font-bold text-gray-800 line-clamp-2 mb-1">{book.title}</h3>
-                <p className="text-sm text-gray-600 mb-4">{book.authors?.join(', ') || 'Autor Desconhecido'}</p>
+            <div className="flex flex-row space-x-3 flex-grow mb-4">
+                
+                <div className="flex-shrink-0">
+                    {book.coverImageUrl ? (
+                        <img 
+                            src={book.coverImageUrl} 
+                            alt={`Capa do livro ${book.title}`} 
+                            className="w-16 h-24 object-cover rounded shadow-md"
+                        />
+                    ) : (
+                        <div className="w-16 h-24 bg-gray-200 flex items-center justify-center text-center text-xs text-gray-500 rounded border border-gray-300 p-1">
+                            Sem Capa
+                        </div>
+                    )}
+                </div>
+
+                <div className="min-w-0"> 
+                    <h3 className="text-xl font-bold text-gray-800 line-clamp-2 mb-1">{book.title}</h3>
+                    <p className="text-sm text-gray-600 line-clamp-2">{book.authors?.join(', ') || 'Autor Desconhecido'}</p>
+                </div>
             </div>
             
-            {/* Bloco de Ações (Select e Botão) */}
+            <div className="mb-4 pt-3 border-t border-gray-100 text-xs text-gray-600 space-y-1">
+                <p><strong>Editora:</strong> <span className="text-gray-700">{book.publisher || 'N/A'}</span></p>
+                <p><strong>Ano:</strong> <span className="text-gray-700">{book.year || 'N/A'}</span></p>
+                <p><strong>Páginas:</strong> <span className="text-gray-700">{book.page_count || 'N/A'}</span></p>
+            </div>
+            
             <div className="mt-auto space-y-2 pt-4 border-t border-gray-100"> 
                 <select
                     value={book.customStatus}
