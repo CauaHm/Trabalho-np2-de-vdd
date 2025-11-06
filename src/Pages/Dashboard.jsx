@@ -1,6 +1,3 @@
-// src/pages/Dashboard.jsx
-
-import React from 'react';
 import { useLibrary } from '../hooks/useLibrary';
 import { useAuth } from '../hooks/useAuth';
 import { Link, Navigate } from 'react-router-dom';
@@ -8,19 +5,24 @@ import { Link, Navigate } from 'react-router-dom';
 function BookCard({ book, onDelete, onUpdateStatus }) {
     return (
         <div className="bg-white p-4 rounded-lg shadow-xl border-t-4 border-indigo-500 flex flex-col justify-between h-full">
-            <div>
-                <h3 className="text-xl font-bold text-gray-800 line-clamp-2 mb-1">{book.title}</h3>
-                <p className="text-sm text-gray-600 mb-3">{book.authors?.join(', ') || 'Autor Desconhecido'}</p>
-            </div>
             
-            <div className="space-y-2 text-sm">
-                <p className="text-gray-500">ISBN: {book.isbn}</p>
-                <p className={`font-semibold ${book.customStatus === 'Lido' ? 'text-green-600' : book.customStatus === 'Em Leitura' ? 'text-blue-600' : 'text-orange-500'}`}>
-                    Status: {book.customStatus}
+            {/* NOVO BLOCO DO STATUS: Movido para o topo, antes do título */}
+            <div className="flex justify-between items-center mb-2">
+                <p className="text-sm text-gray-500">ISBN: {book.isbn}</p>
+                <p className={`font-bold text-sm px-3 py-1 rounded-full ${book.customStatus === 'Lido' ? 'bg-green-100 text-green-700' : book.customStatus === 'Em Leitura' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'}`}>
+                    {book.customStatus}
                 </p>
             </div>
+            {/* FIM NOVO BLOCO DO STATUS */}
+
+            {/* Título e Autor (Ajustado o espaçamento) */}
+            <div className="flex-grow"> 
+                <h3 className="text-xl font-bold text-gray-800 line-clamp-2 mb-1">{book.title}</h3>
+                <p className="text-sm text-gray-600 mb-4">{book.authors?.join(', ') || 'Autor Desconhecido'}</p>
+            </div>
             
-            <div className="mt-4 space-y-2">
+            {/* Bloco de Ações (Select e Botão) */}
+            <div className="mt-auto space-y-2 pt-4 border-t border-gray-100"> 
                 <select
                     value={book.customStatus}
                     onChange={(e) => onUpdateStatus(book.customId, e.target.value)}
@@ -34,7 +36,7 @@ function BookCard({ book, onDelete, onUpdateStatus }) {
                     onClick={() => onDelete(book.customId)}
                     className="w-full py-2 bg-red-500 text-white text-sm font-semibold rounded-md hover:bg-red-600 transition"
                 >
-                    Remover (DELETE)
+                    Remover
                 </button>
             </div>
         </div>
@@ -52,7 +54,7 @@ export default function Dashboard() {
     return (
         <div className="container mx-auto p-4 md:p-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                Minha Biblioteca de {currentUser.nome}
+                Minha Estante
             </h1>
             <p className="text-xl text-gray-600 mb-8">
                 📖 Gerencie seus {books.length} livros.
