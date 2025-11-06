@@ -4,7 +4,7 @@ import { Link, Navigate } from 'react-router-dom';
 
 function BookCard({ book, onDelete, onUpdateStatus }) {
     return (
-        <div className="bg-white p-4 rounded-lg shadow-xl border-t-4 border-indigo-500 flex flex-col justify-between h-full">
+        <div className="bg-white p-4 rounded-lg shadow-xl border-t-4 border-[#940000] flex flex-col justify-between h-full">
             
             <div className="flex justify-between items-center mb-3">
                 <p className="text-sm text-gray-500">ISBN: {book.isbn || 'N/A'}</p>
@@ -31,7 +31,7 @@ function BookCard({ book, onDelete, onUpdateStatus }) {
 
                 <div className="min-w-0"> 
                     <h3 className="text-xl font-bold text-gray-800 line-clamp-2 mb-1">{book.title}</h3>
-                    <p className="text-sm text-gray-600 line-clamp-2">{book.authors?.join(', ') || 'Autor Desconhecido'}</p>
+                    <p className="text-sm text-[#ff5402] line-clamp-2">{book.authors?.join(', ') || 'Autor Desconhecido'}</p>
                 </div>
             </div>
             
@@ -39,13 +39,14 @@ function BookCard({ book, onDelete, onUpdateStatus }) {
                 <p><strong>Editora:</strong> <span className="text-gray-700">{book.publisher || 'N/A'}</span></p>
                 <p><strong>Ano:</strong> <span className="text-gray-700">{book.year || 'N/A'}</span></p>
                 <p><strong>Páginas:</strong> <span className="text-gray-700">{book.page_count || 'N/A'}</span></p>
+                <p><strong>Formato:</strong> <span className="text-gray-700">{book.format || 'N/A'}</span></p>
             </div>
             
             <div className="mt-auto space-y-2 pt-4 border-t border-gray-100"> 
                 <select
                     value={book.customStatus}
                     onChange={(e) => onUpdateStatus(book.customId, e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500"
+                    className="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#f1651a]"
                 >
                     <option value="Desejado">Desejado</option>
                     <option value="Em Leitura">Em Leitura</option>
@@ -72,7 +73,7 @@ export default function Dashboard() {
 
     return (
         <div className="container mx-auto p-4 md:p-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-bold text-[#940000] mb-2">
                 Minha Estante
             </h1>
             <p className="text-xl text-gray-600 mb-8">
@@ -81,7 +82,7 @@ export default function Dashboard() {
 
             <Link 
                 to="/consumo-api"
-                className="inline-block py-2 px-4 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition mb-6 shadow-md"
+                className="inline-block py-2 px-4 bg-[#f1651a] text-white font-semibold rounded-lg hover:bg-[#ff5402] transition mb-6 shadow-md"
             >
                 + Adicionar Novo Livro (Consumo API)
             </Link>
