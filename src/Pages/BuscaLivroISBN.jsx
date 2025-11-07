@@ -6,7 +6,7 @@ import { useAuth } from '../hooks/useAuth';
 
 function BookSearchResultCard({ book, onSelect }) {
     return (
-        <div className="p-4 bg-white rounded-lg shadow-xl transition duration-300 border-t-4 border-[#940000] flex flex-col justify-between h-full">
+        <div className="p-4 bg-white rounded-lg shadow-xl transition duration-300 border-t-4 border-[#1a0902] flex flex-col justify-between h-full">
             <div className="flex space-x-4">
                 <div className="flex-shrink-0">
                     {book.coverImageUrl ? (
@@ -23,8 +23,8 @@ function BookSearchResultCard({ book, onSelect }) {
                 </div>
                 
                 <div className="flex-grow min-w-0">
-                    <h3 className="text-xl font-extrabold text-gray-800 mb-1 line-clamp-2">{book.title}</h3>
-                    <p className="text-sm text-[#ff5402] mb-3 font-medium line-clamp-1">
+                    <h3 className="text-xl font-extrabold text-gray-900 mb-1 line-clamp-2">{book.title}</h3>
+                    <p className="text-sm text-[#1a0902] mb-3 font-medium line-clamp-1">
                         {book.authors?.join(' / ') || 'Autor Desconhecido'}
                     </p>
                 </div>
@@ -38,7 +38,7 @@ function BookSearchResultCard({ book, onSelect }) {
             
             <button
                 onClick={() => onSelect(book)}
-                className="mt-4 w-full py-2 px-4 bg-[#f1651a] text-white font-semibold rounded-lg shadow-md hover:bg-[#ff5402] transition duration-200"
+                className="mt-4 w-full py-2 px-4 bg-[#1a0902] text-white font-semibold rounded-lg shadow-md border border-transparent hover:bg-white hover:text-[#1a0902] hover:border-[#1a0902] transition duration-200"
             >
                 Adicionar à Biblioteca
             </button>
@@ -94,8 +94,8 @@ export default function BuscaLivroISBN() {
 
   return (
     <div className="container mx-auto p-4 md:p-8">
-      <h1 className="text-4xl font-extrabold text-[#940000] mb-8 text-center">
-        🔎 Busca de Livros (Google Books API)
+      <h1 className="text-4xl font-extrabold text-[#1a0902] mb-8 text-center drop-shadow-sm">
+        Busca de Livros
       </h1>
 
       <div className="max-w-xl mx-auto">
@@ -106,13 +106,13 @@ export default function BuscaLivroISBN() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Digite título, autor ou termo..."
-                    className="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:border-[#f1651a] focus:ring-1 focus:ring-[#f1651a] transition duration-150"
+                    className="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:border-[#1a0902] focus:ring-1 focus:ring-[#1a0902] transition duration-150"
                   />
                   <button
                     type="submit"
                     disabled={loading}
-                    className={`shrink-0 py-3 px-6 rounded-lg font-bold text-white shadow-md transition duration-300 
-                      ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#f1651a] hover:bg-[#ff5402]'}
+                    className={`shrink-0 py-3 px-6 rounded-lg font-bold text-white shadow-md transition duration-300 border border-transparent 
+                      ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#1a0902] hover:bg-white hover:text-[#1a0902] hover:border-[#1a0902]'}
                     `}
                   >
                     {loading ? 'Buscando...' : 'Buscar'}
