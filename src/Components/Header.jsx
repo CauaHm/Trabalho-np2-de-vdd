@@ -52,7 +52,7 @@ function Header() {
           ) : (
             <Link
               to="/login"
-              className="bg-[#1a0902] text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-900 transition duration-150 shadow-sm text-sm sm:text-base"
+              className="hover:border border-[#1a0902] hover:bg-white hover:text-[#1a0902]  transition duration-300 transform bg-[#1a0902] text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-900 transition duration-150 shadow-sm text-sm sm:text-base"
             >
               Entrar
             </Link>

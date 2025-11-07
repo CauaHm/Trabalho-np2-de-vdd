@@ -26,8 +26,8 @@ export default function CadastroUsuario() {
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-120px)] bg-gray-100 p-4">
       <div className="w-full max-w-lg bg-white p-8 rounded-xl shadow-2xl">
-        <h2 className="text-3xl font-bold text-center text-teal-600 mb-6">
-          Cadastro (Simulado)
+        <h2 className="text-3xl font-bold text-center text-[#1a0902] mb-6">
+          Cadastro
         </h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -65,7 +65,7 @@ export default function CadastroUsuario() {
           
           <button 
             type="submit" 
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 transition duration-150"
+            className="hover:border border-[#1a0902] hover:bg-white hover:text-[#1a0902]  transition duration-300 transform w-full flex justify-center  border-transparent rounded-md shadow-lg text-sm font-medium px-8 py-3 text-lg font-semibold text-white bg-[#1a0902] cursor-pointer"
           >
             Cadastrar
           </button>
@@ -73,7 +73,7 @@ export default function CadastroUsuario() {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Já tem conta? {' '}
-          <Link to="/login" className="font-medium text-teal-600 hover:text-teal-500">
+          <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
             Fazer Login
           </Link>
         </p>
