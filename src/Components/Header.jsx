@@ -17,7 +17,7 @@ function Header() {
             alt="Logo Acervo Virtual"
             className="h-8 w-8"
           />
-          <span>Acervo Virtual</span>
+          <span className='font-serif'>Acervo Virtual</span>
         </Link>
 
         <div className="space-x-4 flex items-center">
