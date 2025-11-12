@@ -1,55 +1,71 @@
-import React, { useState } from 'react';
-import { searchBooksByTerm } from '../Api/isbnApi'; 
-import { useLibrary } from '../hooks/useLibrary';
-import { useNavigate, Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import React, { useState } from "react";
+import { searchBooksByTerm } from "../Api/isbnApi";
+import { useLibrary } from "../hooks/useLibrary";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 function BookSearchResultCard({ book, onSelect }) {
-    return (
-        <div className="p-4 bg-white rounded-lg shadow-xl transition duration-300 border-t-4 border-[#1a0902] flex flex-col justify-between h-full">
-            <div className="flex space-x-4">
-                <div className="flex-shrink-0">
-                    {book.coverImageUrl ? (
-                        <img 
-                            src={book.coverImageUrl} 
-                            alt={`Capa do livro ${book.title}`} 
-                            className="w-16 h-24 object-cover rounded shadow-md"
-                        />
-                    ) : (
-                        <div className="w-16 h-24 bg-gray-200 flex items-center justify-center text-center text-xs text-gray-500 rounded border border-gray-300 p-1">
-                            Sem Capa
-                        </div>
-                    )}
-                </div>
-                
-                <div className="flex-grow min-w-0">
-                    <h3 className="text-xl font-extrabold text-gray-900 mb-1 line-clamp-2">{book.title}</h3>
-                    <p className="text-sm text-[#1a0902] mb-3 font-medium line-clamp-1">
-                        {book.authors?.join(' / ') || 'Autor Desconhecido'}
-                    </p>
-                </div>
+  return (
+    <div className="p-4 bg-white rounded-lg shadow-xl transition duration-300 border-t-4 border-[#1a0902] flex flex-col justify-between h-full">
+      <div className="flex space-x-4">
+        <div className="flex-shrink-0">
+          {book.coverImageUrl ? (
+            <img
+              src={book.coverImageUrl}
+              alt={`Capa do livro ${book.title}`}
+              className="w-16 h-24 object-cover rounded shadow-md"
+            />
+          ) : (
+            <div className="w-16 h-24 bg-gray-200 flex items-center justify-center text-center text-xs text-gray-500 rounded border border-gray-300 p-1">
+              Sem Capa
             </div>
-            
-            <div className="mt-3 pt-3 border-t border-gray-200 text-sm text-gray-600 space-y-1">
-                <p>ISBN-13: <span className="font-medium text-gray-800">{book.isbn || 'N/A'}</span></p>
-                <p>Ano: <span className="font-medium text-gray-800">{book.year || 'N/A'}</span></p>
-                <p>Editora: <span className="font-medium text-gray-800">{book.publisher || 'N/A'}</span></p>
-            </div>
-            
-            <button
-                onClick={() => onSelect(book)}
-                className="mt-4 w-full py-2 px-4 bg-[#1a0902] text-white font-semibold rounded-lg shadow-md border border-transparent hover:bg-white hover:text-[#1a0902] hover:border-[#1a0902] transition duration-200 cursor-pointer"
-            >
-                Adicionar à Biblioteca
-            </button>
+          )}
         </div>
-    );
+
+        <div className="flex-grow min-w-0">
+          <h3 className="text-xl font-extrabold text-gray-900 mb-1 line-clamp-2">
+            {book.title}
+          </h3>
+          <p className="text-sm text-[#1a0902] mb-3 font-medium line-clamp-1">
+            {book.authors?.join(" / ") || "Autor Desconhecido"}
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-3 pt-3 border-t border-gray-200 text-sm text-gray-600 space-y-1">
+        <p>
+          ISBN-13:{" "}
+          <span className="font-medium text-gray-800">
+            {book.isbn || "N/A"}
+          </span>
+        </p>
+        <p>
+          Ano:{" "}
+          <span className="font-medium text-gray-800">
+            {book.year || "N/A"}
+          </span>
+        </p>
+        <p>
+          Editora:{" "}
+          <span className="font-medium text-gray-800">
+            {book.publisher || "N/A"}
+          </span>
+        </p>
+      </div>
+
+      <button
+        onClick={() => onSelect(book)}
+        className="mt-4 w-full py-2 px-4 bg-[#1a0902] text-white font-semibold rounded-lg shadow-md border border-transparent hover:bg-white hover:text-[#1a0902] hover:border-[#1a0902] transition duration-200 cursor-pointer"
+      >
+        Adicionar à Biblioteca
+      </button>
+    </div>
+  );
 }
 
-
 export default function BuscaLivroISBN() {
-  const [searchTerm, setSearchTerm] = useState(''); 
-  const [searchResults, setSearchResults] = useState(null); 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { addBook } = useLibrary();
@@ -57,28 +73,28 @@ export default function BuscaLivroISBN() {
   const navigate = useNavigate();
 
   if (!isLoggedIn) {
-      return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   function executeSearch(term) {
     if (!term) {
-        setError('Por favor, digite um termo de busca.');
-        return;
-    } 
+      setError("Por favor, digite um termo de busca.");
+      return;
+    }
 
     setLoading(true);
     setError(null);
-    setSearchResults(null); 
+    setSearchResults(null);
 
     searchBooksByTerm(term)
-        .then(results => {
-            if (results.length === 0) {
-                setError('Nenhum livro encontrado para o termo: ' + term);
-            }
-            setSearchResults(results);
-        })
-        .catch(err => setError(err.message))
-        .finally(() => setLoading(false));
+      .then((results) => {
+        if (results.length === 0) {
+          setError("Nenhum livro encontrado para o termo: " + term);
+        }
+        setSearchResults(results);
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
   }
 
   function handleSearch(e) {
@@ -87,9 +103,8 @@ export default function BuscaLivroISBN() {
   }
 
   function handleAddBook(book) {
-      addBook(book);
-      alert(`"${book.title}" adicionado com sucesso à sua biblioteca!`);
-      navigate('/dashboard'); 
+    addBook(book);
+    alert(`"${book.title}" adicionado com sucesso à sua biblioteca!`);
   }
 
   return (
@@ -99,26 +114,30 @@ export default function BuscaLivroISBN() {
       </h1>
 
       <div className="max-w-xl mx-auto">
-          <form onSubmit={handleSearch} className="flex flex-col gap-3">
-              <div className="flex sm:flex-row gap-3">
-                  <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Digite título, autor ou termo..."
-                    className="flex-grow p-3 border-2 border-gray-400 rounded-lg focus:border-[#1a0902] focus:ring-2 focus:ring-[#1a0902] transition duration-150"
-                  />
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className={`shrink-0 py-3 px-6 rounded-lg font-bold text-white shadow-md transition duration-300 border border-transparent cursor-pointer 
-                      ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#1a0902] hover:bg-white hover:text-[#1a0902] hover:border-[#1a0902]'}
+        <form onSubmit={handleSearch} className="flex flex-col gap-3">
+          <div className="flex sm:flex-row gap-3">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Digite título, autor ou termo..."
+              className="flex-grow p-3 border-2 border-gray-400 rounded-lg focus:border-[#1a0902] focus:ring-2 focus:ring-[#1a0902] transition duration-150"
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className={`shrink-0 py-3 px-6 rounded-lg font-bold text-white shadow-md transition duration-300 border border-transparent cursor-pointer 
+                      ${
+                        loading
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-[#1a0902] hover:bg-white hover:text-[#1a0902] hover:border-[#1a0902]"
+                      }
                     `}
-                  >
-                    {loading ? 'Buscando...' : 'Buscar'}
-                  </button>
-              </div>
-          </form>
+            >
+              {loading ? "Buscando..." : "Buscar"}
+            </button>
+          </div>
+        </form>
       </div>
 
       <div className="max-w-6xl mx-auto mt-8">
@@ -129,20 +148,20 @@ export default function BuscaLivroISBN() {
         )}
 
         {searchResults && searchResults.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {searchResults.map(book => (
-                    <BookSearchResultCard 
-                        key={book.apiId} 
-                        book={book} 
-                        onSelect={handleAddBook} 
-                    />
-                ))}
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {searchResults.map((book) => (
+              <BookSearchResultCard
+                key={book.apiId}
+                book={book}
+                onSelect={handleAddBook}
+              />
+            ))}
+          </div>
         )}
-        
+
         {!searchResults && !error && !loading && (
           <p className="text-center mt-10 text-gray-500">
-              Digite um termo de busca para encontrar livros.
+            Digite um termo de busca para encontrar livros.
           </p>
         )}
       </div>

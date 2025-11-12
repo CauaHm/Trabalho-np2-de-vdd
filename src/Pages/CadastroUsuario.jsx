@@ -1,3 +1,5 @@
+// src/pages/CadastroUsuario.jsx
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth'; 
@@ -24,7 +26,7 @@ export default function CadastroUsuario() {
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-120px)] bg-[#e5ded9] p-4">
       <div className="w-full max-w-lg bg-white p-8 rounded-xl shadow-2xl">
-        <h2 className="text-3xl font-bold text-center text-teal-600 mb-6">
+        <h2 className="text-3xl font-bold text-center text-[#1a0902] mb-6">
           Cadastro (Simulado)
         </h2>
         
@@ -34,7 +36,7 @@ export default function CadastroUsuario() {
             <label className="block text-sm font-medium text-gray-700">Nome</label>
             <input 
               type="text" 
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1a0902] focus:border-[#1a0902] sm:text-sm"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               required
@@ -44,7 +46,7 @@ export default function CadastroUsuario() {
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input 
               type="email" 
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1a0902] focus:border-[#1a0902] sm:text-sm"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -54,7 +56,7 @@ export default function CadastroUsuario() {
             <label className="block text-sm font-medium text-gray-700">Senha</label>
             <input 
               type="password" 
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1a0902] focus:border-[#1a0902] sm:text-sm"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
               required
@@ -63,7 +65,7 @@ export default function CadastroUsuario() {
           
           <button 
             type="submit" 
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 transition duration-150"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-[#1a0902] hover:bg-gray-900 transition duration-150"
           >
             Cadastrar
           </button>
@@ -71,7 +73,7 @@ export default function CadastroUsuario() {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Já tem conta? {' '}
-          <Link to="/login" className="font-medium text-teal-600 hover:text-teal-500">
+          <Link to="/login" className="font-medium text-[#1a0902] hover:text-gray-900">
             Fazer Login
           </Link>
         </p>

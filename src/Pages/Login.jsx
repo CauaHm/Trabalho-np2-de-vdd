@@ -23,7 +23,7 @@ export default function Login() {
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-120px)] bg-[#e5ded9] p-4">
       <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl">
-        <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">
+        <h2 className="text-3xl font-bold text-center text-[#1a0902] mb-6">
           Entrar (Simulado)
         </h2>
         
@@ -33,7 +33,7 @@ export default function Login() {
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input 
               type="email" 
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1a0902] focus:border-[#1a0902] sm:text-sm"
               placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -45,7 +45,7 @@ export default function Login() {
             <label className="block text-sm font-medium text-gray-700">Senha</label>
             <input 
               type="password" 
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1a0902] focus:border-[#1a0902] sm:text-sm"
               placeholder="Sua senha"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
@@ -55,7 +55,7 @@ export default function Login() {
           
           <button 
             type="submit" 
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-[#1a0902] hover:bg-gray-900 transition duration-150"
           >
             Entrar
           </button>
@@ -63,7 +63,7 @@ export default function Login() {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Não tem conta? {' '}
-          <Link to="/cadastro" className="font-medium text-indigo-600 hover:text-indigo-500">
+          <Link to="/cadastro" className="font-medium text-[#1a0902] hover:text-gray-900">
             Cadastre-se
           </Link>
         </p>
