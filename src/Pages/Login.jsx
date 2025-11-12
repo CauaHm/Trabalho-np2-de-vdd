@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth'; 
 
 export default function Login() {
   const [email, setEmail] = useState('teste@abc.com');
   const [senha, setSenha] = useState('123');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
   const { login } = useAuth();
 
   function handleSubmit(e) {
@@ -14,7 +13,7 @@ export default function Login() {
     setError('');
     
     if (login(email, senha)) {
-        navigate('/dashboard'); 
+        window.location.href = '/dashboard'; 
     } else {
         setError('Email ou senha inválidos. Tente (teste@abc.com / 123)');
     }

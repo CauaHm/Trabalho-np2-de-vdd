@@ -1,9 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { Link, useNavigate } from "react-router-dom"; 
 
 function Header() {
   const { isLoggedIn, logout } = useAuth();
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    logout(); 
+    navigate('/login'); 
+  }
 
   return (
     <header className="sticky top-4 z-10 mb-4">
@@ -43,7 +48,7 @@ function Header() {
                 Dashboard
               </Link>
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="bg-[#1a0902] text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-900 transition duration-150 shadow-sm text-sm sm:text-base"
               >
                 Sair

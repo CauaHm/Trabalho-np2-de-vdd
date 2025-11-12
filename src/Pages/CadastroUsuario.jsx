@@ -1,15 +1,14 @@
 // src/pages/CadastroUsuario.jsx
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth'; 
+import { Link } from 'react-router-dom';
 
 export default function CadastroUsuario() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
   const { register } = useAuth();
 
   function handleSubmit(e) {
@@ -17,7 +16,7 @@ export default function CadastroUsuario() {
     setError('');
 
     if (register(nome, email, senha)) {
-        navigate('/dashboard'); 
+        window.location.href = '/dashboard';
     } else {
         setError('Este email já está em uso.');
     }
