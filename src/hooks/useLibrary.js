@@ -24,7 +24,6 @@ export function useLibrary() {
     setBooks(newBooks);
   }
 
-  // CREATE
   function addBook(bookData) {
     if (books.some(b => b.isbn === bookData.isbn)) {
       alert("Este livro já está na sua biblioteca!");
@@ -34,13 +33,11 @@ export function useLibrary() {
     saveBooks([...books, newBook]);
   }
   
-  // DELETE
   function deleteBook(customId) {
     const newBooks = books.filter(b => b.customId !== customId);
     saveBooks(newBooks);
   }
   
-  // UPDATE
   function updateBookStatus(customId, newStatus) {
       const newBooks = books.map(b => 
           b.customId === customId ? { ...b, customStatus: newStatus } : b

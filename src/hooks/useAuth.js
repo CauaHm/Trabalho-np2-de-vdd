@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const STORAGE_KEY = 'fakeUsersDB';
 const LOGGED_USER_KEY = 'loggedUser';
@@ -12,11 +12,6 @@ export function useAuth() {
   );
   const isLoggedIn = !!currentUser;
 
-  useEffect(() => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      setFakeUsers([{ id: 1, nome: "Admin", email: "teste@abc.com", senha: "123" }]);
-    }
-  }, []);
 
   function login(email, senha) {
     const users = getFakeUsers();
