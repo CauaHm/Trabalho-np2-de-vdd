@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const STORAGE_KEY = 'fakeUsersDB';
 const LOGGED_USER_KEY = 'loggedUser';
@@ -12,7 +11,6 @@ export function useAuth() {
     JSON.parse(localStorage.getItem(LOGGED_USER_KEY))
   );
   const isLoggedIn = !!currentUser;
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!localStorage.getItem(STORAGE_KEY)) {
@@ -52,7 +50,6 @@ export function useAuth() {
   function logout() {
     localStorage.removeItem(LOGGED_USER_KEY);
     setCurrentUser(null);
-    navigate('/login');
   }
 
   return { currentUser, isLoggedIn, login, register, logout };
