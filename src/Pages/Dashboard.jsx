@@ -77,7 +77,7 @@ export default function Dashboard() {
                 Minha Estante
             </h1>
             <p className="text-xl text-gray-600 mb-8">
-                📖 Gerencie seus {books.length} livros.
+                Livros salvos: {books.length}
             </p>
 
             <Link 
