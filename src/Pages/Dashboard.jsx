@@ -4,7 +4,7 @@ import { Link, Navigate } from 'react-router-dom';
 
 function BookCard({ book, onDelete, onUpdateStatus }) {
     return (
-        <div className="bg-white p-4 rounded-lg shadow-xl border-t-4 border-[#940000] flex flex-col justify-between h-full">
+        <div className="bg-white p-4 rounded-lg shadow-xl border-t-4 border-[#1a0209] flex flex-col justify-between h-full">
             
             <div className="flex justify-between items-center mb-3">
                 <p className="text-sm text-gray-500">ISBN: {book.isbn || 'N/A'}</p>
@@ -31,7 +31,7 @@ function BookCard({ book, onDelete, onUpdateStatus }) {
 
                 <div className="min-w-0"> 
                     <h3 className="text-xl font-bold text-gray-800 line-clamp-2 mb-1">{book.title}</h3>
-                    <p className="text-sm text-[#ff5402] line-clamp-2">{book.authors?.join(', ') || 'Autor Desconhecido'}</p>
+                    <p className="text-sm text-[#1a0209] line-clamp-2">{book.authors?.join(', ') || 'Autor Desconhecido'}</p>
                 </div>
             </div>
             
@@ -46,7 +46,7 @@ function BookCard({ book, onDelete, onUpdateStatus }) {
                 <select
                     value={book.customStatus}
                     onChange={(e) => onUpdateStatus(book.customId, e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#f1651a]"
+                    className="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-[#1a0209] focus:border-[#1a0209]"
                 >
                     <option value="Desejado">Desejado</option>
                     <option value="Em Leitura">Em Leitura</option>
@@ -73,22 +73,22 @@ export default function Dashboard() {
 
     return (
         <div className="container mx-auto p-4 md:p-8">
-            <h1 className="text-4xl font-bold text-[#940000] mb-2">
+            <h1 className="text-4xl font-bold text-[#1a0209] mb-2">
                 Minha Estante
             </h1>
             <p className="text-xl text-gray-600 mb-8">
-                📖 Gerencie seus {books.length} livros.
+                Livros salvos: {books.length}
             </p>
 
             <Link 
                 to="/consumo-api"
-                className="inline-block py-2 px-4 bg-[#f1651a] text-white font-semibold rounded-lg hover:bg-[#ff5402] transition mb-6 shadow-md"
+                className="inline-block py-2 px-4 bg-[#1a0209] text-white font-semibold rounded-lg shadow-md border-2 border-transparent transition duration-300 mb-6 hover:bg-white hover:text-[#1a0209] hover:border-[#1a0209]"
             >
-                + Adicionar Novo Livro (Consumo API)
+                + Adicionar Novo Livro (Busca)
             </Link>
 
             {books.length === 0 ? (
-                <div className="text-center p-10 bg-white rounded-xl shadow-lg mt-8 border-l-4 border-indigo-200">
+                <div className="text-center p-10 bg-white rounded-xl shadow-lg mt-8 border-l-4 border-gray-200">
                     <p className="text-xl text-gray-500">Sua biblioteca está vazia. Use o botão acima para começar!</p>
                 </div>
             ) : (

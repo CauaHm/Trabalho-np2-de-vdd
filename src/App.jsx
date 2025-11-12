@@ -1,10 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-// Componentes de Layout
 import Header from './Components/Header'; 
 import Footer from './Components/Footer'; 
 
-// Páginas
 import Home from './Pages/Home';
 import Login from './Pages/Login';
 import CadastroUsuario from './Pages/CadastroUsuario';
@@ -18,7 +16,7 @@ export default function App() {
         
         <Header /> 
         
-        <main className="flex-grow bg-gray-50">
+        <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
